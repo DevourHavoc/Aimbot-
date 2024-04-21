@@ -1,4 +1,4 @@
-local fov = 50
+local fov = 80
 local maxTransparency = 0.1 -- Transparência máxima dentro do círculo (0.1 = 10% de transparência)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
