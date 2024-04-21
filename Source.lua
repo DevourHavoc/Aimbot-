@@ -1,19 +1,19 @@
-local fov = 80
-local maxTransparency = 0.1 -- Transparência máxima dentro do círculo (0.1 = 10% de transparência)
+local fov = 100
+local maxTransparency = 0.1 -- Maximum transparency inside the circle (0.1 = 10% transparency)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
-local Teams = game:GetService("Teams") -- Adicione esta linha para acessar os times
+local Teams = game:GetService("Teams") -- Add this line to access teams
 local Cam = game.Workspace.CurrentCamera
  
 local FOVring = Drawing.new("Circle")
 FOVring.Visible = true
 FOVring.Thickness = 2
-FOVring.Color = Color3.fromRGB(128, 0, 128) -- Cor roxa
+FOVring.Color = Color3.fromRGB(128, 0, 128) -- Customise color (Currently Purple)
 FOVring.Filled = false
 FOVring.Radius = fov
 FOVring.Position = Cam.ViewportSize / 2
-FOVring.Transparency = 0.1 -- Transparência inicial igual ao segundo script
+FOVring.Transparency = 0.1 -- Initial transparency same as second script
  
 local function updateDrawings()
     local camViewportSize = Cam.ViewportSize
@@ -36,8 +36,8 @@ local function lookAt(target)
 end
  
 local function calculateTransparency(distance)
-    -- Ajuste a transparência com base na distância do centro do círculo
-    local maxDistance = fov -- A distância máxima do centro do círculo
+    -- Adjust transparency based on distance from circle center
+    local maxDistance = fov -- The maximum distance from the center of the circle
     local transparency = (1 - (distance / maxDistance)) * maxTransparency
     return transparency
 end
@@ -56,7 +56,7 @@ local function getClosestPlayerInFOV(trg_part)
                 local ePos, isVisible = Cam:WorldToViewportPoint(part.Position)
                 local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
  
-                -- Adicione uma verificação de equipe aqui
+                -- Add a team check here
                 if isVisible and distance < fov and player.Team ~= localPlayerTeam then
                     if distance < last then
                         last = distance
@@ -81,9 +81,9 @@ RunService.RenderStepped:Connect(function()
             local distance = (Vector2.new(ePos.x, ePos.y) - (Cam.ViewportSize / 2)).Magnitude
             FOVring.Transparency = calculateTransparency(distance)
         else
-            FOVring.Transparency = 0.1 -- Mantenha completamente visível quando nenhum jogador estiver no FOV
+            FOVring.Transparency = 0.1 -- Keep completely visible when no players are in the FOV
         end
     else
-        FOVring.Transparency = 0.1 -- Mantenha completamente visível quando nenhum jogador estiver no FOV
+        FOVring.Transparency = 0.1 -- Keep completely visible when no players are in the FOV
     end
 end)
